@@ -10,17 +10,19 @@ class FirstOrder:
     
     def differentiateFirstFO(self, x, y, h):
         """
-        Compute first order first derivative using finite difference method
+        Compute first order first derivative using finite difference method.
         """
+        num_variables = x.shape[0]
+        data_dim      = x.shape[-1]
+        diff          = np.empty([num_variables, data_dim])
 
-        data_dim = x.shape[-1]
-        diff = np.empty(data_dim)
+        for j in range(num_variables):
 
-        diff[0]  = (y[1] - y[0])/h
-        diff[-1] = (y[-1] - y[-2])/h
+            diff[j, 0]  = (y[j,1] - y[j,0])/h
+            diff[j, -1] = (y[j,-1] - y[j,-2])/h
 
-        for i in range(1,data_dim-1):
-            diff[i] = (y[i+1] - y[i-1])/(2*h)
+            for i in range(1,data_dim-1):
+                diff[j,i] = (y[j,i+1] - y[j, i-1])/(2*h)
 
         return diff
 
