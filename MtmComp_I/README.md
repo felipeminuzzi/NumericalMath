@@ -30,7 +30,7 @@
 
 ## Aulas
 
-O cronograma da disciplina pode ser encontrado aqui.
+O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_I_12_302_202401.pdf).
 
 ## Avaliações
 
@@ -50,6 +50,9 @@ A avaliação irá considerar a **produção** dos estudantes durante as aulas p
 
 ## Bibliografia
 
-- Escrever
+- Steven C. Chapra; Raymond P. Canale. Métodos Numéricos para Engenharia. 7ª Edição. McGraw-Hill, 2016.
+- Richard L. Burden, J. Douglas Faires e Annette M. Burden. Análise Numérica. Tradução da 10ª edição norte-americana. Cengage, 2016.
+- Qingkai Kong, Timmy Siauw, Alexandre Bayen. Python Programming And Numerical Methods: A Guide For Engineers And Scientists. 1ª edição. Elsevier, 2020. [Link](https://pythonnumericalmethods.berkeley.edu/notebooks/Index.html)
+- Cálculo Numérico. Um Livro Colaborativo. REMAT - UFRGS, 2020. [Link](https://www.ufrgs.br/reamat/CalculoNumerico/livro-py/main.html)
  
 <p align="right">(<a href="#readme-top">início</a>)</p>
