@@ -18,8 +18,8 @@
 ## Sobre a disciplina
  - Professor: Felipe Crivellaro Minuzzi (felipe.minuzzi@ufsm.br)
  - Sala: 1218B do CCNE
- - Horário: quartas das 15:30 às 17:10 e quintas das 16:30 às 18:10
- - Local: quartas na sala 102 do CTE (Prédio 14) e quintas na sala 338 do CT (Prédio 7)
+ - Horário: quartas e sextas, das 9:30 às 11:10
+ - Local: quartas na sala 102 do CTE (Prédio 14) e sextas na sala 442 do CT (Prédio 7)
  - [Ementa](https://www.ufsm.br/ementario/disciplinas/UFSM00040): informações institucionais sobre a disciplina.
  - Objetivos da disciplina:
    1. Conhecer conceitos básicos para a utilização de programação na solução de problemas. 
@@ -30,7 +30,7 @@
 
 ## Aulas
 
-O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_I_12_302_202401.pdf).
+O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_I_10_316_202401.pdf).
 
 ## Avaliações
 
