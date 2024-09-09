@@ -31,7 +31,7 @@
 
 ## Aulas
 
-O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_I_10_316_202401.pdf).
+O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_IV_10_315_202402.pdf).
 
 ## Avaliações
 
