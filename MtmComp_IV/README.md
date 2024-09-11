@@ -18,7 +18,7 @@
 ## Sobre a disciplina
  - Professor: Felipe Crivellaro Minuzzi (felipe.minuzzi@ufsm.br)
  - Sala: 1218B do CCNE
- - Horário: Curso 315: segundas-feiras, das 17:30 às 19:00
+ - Horário: Curso 315: segundas-feiras, das 17:30 às 19:00 <br>
             Curso 304: sextas-feiras, das 08:30 às 10:00
  - Local: sala 338 do CT (Prédio 7)
  - [Ementa](https://www.ufsm.br/ementario/disciplinas/UFSM00043): informações institucionais sobre a disciplina.
@@ -31,7 +31,7 @@
 
 ## Aulas
 
-O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_IV_10_315_202402.pdf).
+O cronograma da disciplina pode ser encontrado aqui: [Curso 315](plano_ensino_mtm_comp_IV_10_315_202402.pdf) e [Curso 304](plano_ensino_mtm_comp_IV_10_304_202402.pdf)
 
 ## Avaliações
 
