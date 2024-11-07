@@ -1,5 +1,13 @@
 import numpy as np
 from tqdm import tqdm
+import matplotlib.pyplot as plt
+
+def plot_heatmap(u_k, x, y):
+  plt.clf()
+  plt.xlabel('x')
+  plt.ylabel('y')
+  plt.pcolormesh(x,y,u_k, cmap=plt.cm.jet, vmin=0, vmax = 150)
+  plt.colorbar()
 
 ##################################################################
 #!		                 Constantes			                     #
@@ -128,4 +136,7 @@ for it in tqdm(range(nt-1)):
     for i in range(0,nj):
         p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
         p[it,ni-1,i]   = .75*p[it,ni-2,i] + .25*p[it,ni-3,i]
+
 breakpoint()
+plot_heatmap(u[-1,:,:], yi, xi)
+plt.show()
