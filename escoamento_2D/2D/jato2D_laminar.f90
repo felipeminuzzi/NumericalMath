@@ -1,6 +1,6 @@
 program jato3D
 implicit none
-integer,parameter				:: ni=161,nj=41,nk=41,itmax=3000000
+integer,parameter			:: ni=161,nj=51,itmax=3000000
 integer						:: i,j,k,it,nmj,nmk,imax,jmax,kmax,npj,npk,ninf,nsup,nextinf,nextsup,nmj2,nparede,ninj
 real(8)						:: dt,dt2,dx,dy,dz,L,D,H,re,dx2,dy2,dz2,sch,di,k1x,k1y,k1z,k2x,k2y,k2z,k3x,k3y,k3z,k4x,k4y,k4z
 real(8)						:: uin,vin,pin,Tin,win,k1mis,k2mis,k3mis,k4mis
@@ -13,7 +13,6 @@ real(8),dimension(ni,nj,nk)			:: d1,mi0,dife
 real(8)						:: d2ddx2,d2ddy2,d2ddz2,d2qmxudx2,d2qmyvdy2,d2qmzwdz2,d2qmxvdxy,d2qmxwdxz,d2qmywdyz,dpz,dp
 real(8),dimension(ni)				:: x
 real(8),dimension(nj)				:: y
-real(8),dimension(nk)				:: z
 real(8)						:: dqmxzdxk2,dqmyzdyk2,dqmzzdzk2,d2zdx2k2,d2zdy2k2
 real(8)						:: dqmxzdxk3,dqmyzdyk3,dqmzzdzk3,d2zdx2k3,d2zdy2k3,d2zdz2k3,dqmxzdxk4,dqmyzdyk4,dqmzzdzk4,d2zdx2k4
 real(8)						:: duudxk2,duvdyk2,duwdzk2,dvudxk2,dvvdyk2,dvwdzk2,dwudxk2,dwvdyk2,dwwdzk2,d2udx2k2
@@ -23,9 +22,9 @@ real(8)						:: d2udy2k3,d2udz2k3,d2vdx2k3,d2vdy2k3,d2vdz2k3,d2wdx2k3,d2wdy2k3,d
 real(8)						:: duudxk4,duvdyk4,duwdzk4,dvudxk4,dvvdyk4,dvwdzk4,dwudxk4,dwvdyk4,dwwdzk4,d2udx2k4
 real(8)						:: d2udy2k4,d2udz2k4,d2vdx2k4,d2vdy2k4,d2vdz2k4,d2wdx2k4,d2wdy2k4,d2wdz2k4
 real(8)						:: TIME,sbr,dmax,soma,beta,dD,dparede,fat,Diaminte,Diamext,fat1,Linj,betax1
-real(8)						:: roair,miair,yo22,yf1,mwf,mwo2,zst,Q,cp,alfa
+real(8)						:: roh2o,mih2o,yo22,yf1,mwf,mwo2,zst,Q,cp,alfa
 
-print *, 'Jato Laminar 3D'
+print *, 'Jato Laminar 2D'
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !			Constantes				!
@@ -34,113 +33,34 @@ print *, 'Jato Laminar 3D'
 	re   = 900.d0
 	dt   = 1.d-5
 	dt2  = dt/2.d0
-	L    = 1.4d0
-	D    = 1.d0
+	L    = 5.d0
 	H    = 1.d0
 	sbr  = 0.99d0
 	di   = 1.d0!2.27d-5
-	roair= 1.1614d0
-	miair= 1.846d-5
-	sch  = 0.7d0!(miair)/(di*roair)
-	mwf  = 44.1d0
-	mwo2 = 32.d0
-	yf1  = 1.d0
-	yo22 = 0.2333d0
-	zst  = 0.06d0
-	Q    = 2044171d0 ! em kJ/Kg
-	cp   = 1.2d0   ! em kJ/kg K7
-        mi0  = 1.d0
-	mief = 1.d0
-	alfa = 0.2d0
+	roh2o= 1.0 !g/cm3
+	mih2o= 0.01 !g/cm s
 
 	print *, 'Reynolds:',re
-	print *, 'Schimidt:',sch
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !	             Geração da malha				!
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
-	ninj  =2
-	Linj  =0.01d0
-	betax1=0.7d0
+	dx = L/ni
+	dy = H/nj
+
+	x(1) = 0
+	y(1) = 0
 !Direção x
 
-	do i=1,ninj
-	  fat1 =(1.d0*(ninj-i))/((ninj-1)*1.d0)
-	  x(i) =Linj-((dexp(betax1*fat1)-1.d0)/(dexp(betax1)-1.d0))*Linj
+	do i=2,ni
+	  x(i) = x(i-1) + dx
 	end do
 
- 	do i=ninj+1,ni
-  	  fat1 =(1.d0*(i-ninj))/(ni-ninj)	
-	  x(i) =Linj+(L-Linj)*((dexp(betax1*fat1)-1.d0)/(dexp(betax1)-1.d0))
- 	end do
 !----------------------------------------------------------------
 !Direção y
-	beta    =1.5d0
-	npj     =9
-	npk     =9
-	nparede =4
-	Diaminte=0.12075d0
-	Diamext =1.1863d0*Diaminte
 
-	nmj    = ((nj-1)/2 + 1)
-	ninf   = nmj - ((npj-1)/2.d0)
-	nsup   = nmj + ((npj-1)/2.d0)
-	nextinf= nmj - ((npj-1)/2.d0) - (nparede/2.d0)
-	nextsup= nmj + ((npj-1)/2.d0) + (nparede/2.d0)
-	dD     =(1.d0*(Diaminte))/(((npj*1.d0)-1.d0)+2.d0)
-	Dparede=((Diamext-Diaminte)/2.d0)/((nparede/2.d0)-1.d0)
-
-	do j=1,nextinf
-	  fat  = (1.d0*(nextinf-j)/(nextinf-1.d0))
-	  y(j) = -(Diamext/2.d0+(D-Diamext)/2.d0*(((dexp(beta*fat) - 1.d0)/(dexp(beta) -1.d0))))
-	end do
-
-	do j=nextinf+1,ninf-1
-	  y(j)=y(j-1)+dparede
-	end do
-
-	do j=ninf,nsup+1
-	  y(j)=y(j-1)+dD
-	end do
-
-	do j=nsup+2,nextsup-1
-	  y(j)=y(j-1)+dparede
-	end do
-
-	do j=nextsup,nj
-	  fat  =(1.d0*(j-(nextsup)))/((nj-(nextsup))*1.d0)
-	  y(j) =Diamext/2.d0+(D-Diamext)/2.d0*(((dexp(beta*fat) - 1.d0)/(dexp(beta) -1.d0)))
-	end do
-!----------------------------------------------------------------
-!Direção z
-	nmk    = ((nk-1)/2 + 1)
-	ninf   = nmk - ((npk-1)/2.d0)
-	nsup   = nmk + ((npk-1)/2.d0)
-	nextinf= nmk - ((npk-1)/2.d0) - (nparede/2.d0)
-	nextsup= nmk + ((npk-1)/2.d0) + (nparede/2.d0)
-	dD     =(1.d0*(Diaminte))/(((npk*1.d0)-1.d0)+2.d0)
-	Dparede=((Diamext-Diaminte)/2.d0)/((nparede/2.d0)-1.d0)
-
-	do k=1,nextinf
-	  fat  = (1.d0*(nextinf-k)/(nextinf-1.d0))
-	  z(k) = -(Diamext/2.d0+(D-Diamext)/2.d0*(((dexp(beta*fat) - 1.d0)/(dexp(beta) -1.d0))))
-	end do
-
-	do k=nextinf+1,ninf-1
-	  z(k)=z(k-1)+dparede
-	end do
-
-	do k=ninf,nsup+1
-	  z(k)=z(k-1)+dD
-	end do
-
-	do k=nsup+2,nextsup-1
-	  z(k)=z(k-1)+dparede
-	end do
-
-	do k=nextsup,nk
-	  fat  =(1.d0*(k-(nextsup)))/((nk-(nextsup))*1.d0)
-	  z(k) =Diamext/2.d0+(D-Diamext)/2.d0*(((dexp(beta*fat) - 1.d0)/(dexp(beta) -1.d0)))
+	do j=2,nj
+		y(j) = x(j-1) + dy
 	end do
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
