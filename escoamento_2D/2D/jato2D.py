@@ -111,32 +111,37 @@ for it in tqdm(range(nt-1)):
             v[it+1,i,j]   = v[it,i,j] + dt*(-convect_y - dpdy + (1/re)*difus_y)
 
 
-    for i in range(1,ni-1):
-        for j in range(1,nj-1):
+    # for i in range(1,ni-1):
+    #     for j in range(1,nj-1):
             
-            d2d1dx2       = (d1[it,i+1,j] - 2*d1[it,i,j] + d1[it,i-1,j])/dx2
-            d2d1dy2       = (d1[it,i,j+1] - 2*d1[it,i,j] + d1[it,i,j-1])/dy2
+    #         d2d1dx2       = (d1[it,i+1,j] - 2*d1[it,i,j] + d1[it,i-1,j])/dx2
+    #         d2d1dy2       = (d1[it,i,j+1] - 2*d1[it,i,j] + d1[it,i,j-1])/dy2
 
-            dpx           = p[it,i+1,j] + p[it,i-i,j]
-            dpy           = p[it,i,j+1] + p[it,i,j-1]
+    #         dpx           = p[it,i+1,j] + p[it,i-i,j]
+    #         dpy           = p[it,i,j+1] + p[it,i,j-1]
 
-            d2udx2        = (u[it,i+1,j]*u[it,i+1,j] - 2*u[it,i,j]*u[it,i,j] + u[it,i-1,j]*u[it,i-1,j])/dx2
-            d2vdy2        = (v[it,i,j+1]*v[it,i,j+1] - 2*v[it,i,j]*v[it,i,j] + v[it,i,j-1]*v[it,i,j-1])/dy2
-            d2uvdxy2      = (u[it,i+1,j+1]*v[it,i+1,j+1] - u[it,i+1,j-1]*v[it,i+1,j-1] - u[it,i-1,j+1]*v[it,i-1,j+1] + u[it,i-1,j-1]*v[it,i-1,j-1])/(4*dx*dy)
+    #         d2udx2        = (u[it,i+1,j]*u[it,i+1,j] - 2*u[it,i,j]*u[it,i,j] + u[it,i-1,j]*u[it,i-1,j])/dx2
+    #         d2vdy2        = (v[it,i,j+1]*v[it,i,j+1] - 2*v[it,i,j]*v[it,i,j] + v[it,i,j-1]*v[it,i,j-1])/dy2
+    #         d2uvdxy2      = (u[it,i+1,j+1]*v[it,i+1,j+1] - u[it,i+1,j-1]*v[it,i+1,j-1] - u[it,i-1,j+1]*v[it,i-1,j+1] + u[it,i-1,j-1]*v[it,i-1,j-1])/(4*dx*dy)
 
-            conv_esp_pr   = d2udx2 + d2vdy2 + d2uvdxy2
+    #         conv_esp_pr   = d2udx2 + d2vdy2 + d2uvdxy2
 
-            p[it,i,j]   = ((dx2*dy2)/(2*(dy2 + dx2)))*(dpx/dx2 + dpy/dy2 - (1/re)*(d2d1dx2 + d2d1dy2) + (1/dt)*d1[it,i,j] + conv_esp_pr) 
-            #p[it,i,j]   = sbr*p[it,i,j] + (1.- sbr)*p[it+1,i,j]
+    #         p[it,i,j]   = ((dx2*dy2)/(2*(dy2 + dx2)))*(dpx/dx2 + dpy/dy2 - (1/re)*(d2d1dx2 + d2d1dy2) + (1/dt)*d1[it,i,j] + conv_esp_pr) 
+    #         #p[it,i,j]   = sbr*p[it,i,j] + (1.- sbr)*p[it+1,i,j]
     
-    for j in range(0,ni):
-       p[it,j,0]       = p[it,j,2]
-       p[it,j,nj-1]    = 1. 
+    # for j in range(0,ni):
+    #    p[it,j,0]       = p[it,j,2]
+    #    p[it,j,nj-1]    = 1. 
 
-    for i in range(0,nj):
-        p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
-        p[it,ni-1,i]   = .75*p[it,ni-2,i] + .25*p[it,ni-3,i]
+    # for i in range(0,nj):
+    #     p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
+    #     p[it,ni-1,i]   = .75*p[it,ni-2,i] + .25*p[it,ni-3,i]
+
+    if it%10 == 0:
+        print(f'Dilatação: {d1}')
+
 
 breakpoint()
+
 plot_heatmap(u[-1,:,:], yi, xi)
 plt.show()
