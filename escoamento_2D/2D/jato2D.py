@@ -1,6 +1,8 @@
 import numpy as np
-from tqdm import tqdm
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import matplotlib
+matplotlib.rcParams['animation.embed_limit'] = 2**128
 
 def plot_heatmap(u_k, x, y):
   plt.clf()
@@ -9,13 +11,24 @@ def plot_heatmap(u_k, x, y):
   plt.pcolormesh(x,y,u_k, cmap=plt.cm.jet)
   plt.colorbar()
 
+def plot_mesh(x,y):
+    
+    xi, yj = np.meshgrid(x, y)
+
+    plt.plot(xi, yj, 'k.')
+    plt.xlabel('x')
+    plt.ylabel('y')
+
+def animate(k):
+  plot_heatmap(u[k, :,:], xi, yi)
+
 ##################################################################
 #!		                 Constantes			                     #
 ##################################################################	
 
 ni     = 151
 nj     = 51
-nt     = 1000
+nt     = 100
 re     = 900.
 dt     = 1.e-3
 L      = 5.
@@ -137,8 +150,8 @@ for it in range(nt-1):
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
 
 
-breakpoint()
-
-plot_heatmap(u[-1,:,:], xi, yi)
-plt.show()
+anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
+anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
+# plot_heatmap(u[-1,:,:], xi, yi)
+# plt.show()
 
