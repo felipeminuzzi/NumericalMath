@@ -28,7 +28,7 @@ def animate(k):
 
 ni     = 151
 nj     = 51
-nt     = 100
+nt     = 100000
 re     = 900.
 dt     = 1.e-3
 L      = 5.
@@ -71,6 +71,7 @@ d1 = np.zeros((nt, nj, ni))
 u[0,:,:] = initial_cond
 v[0,:,:] = 0
 p[0,:,:] = initial_cond
+
 #condição de contorno x
 u[:,0,:]  = cc_top
 u[:,nj-1,:] = cc_bottom
@@ -137,7 +138,7 @@ for it in range(nt-1):
         p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
         p[it,nj-1,i]   = .75*p[it,nj-2,i] + .25*p[it,nj-3,i]
 
-    if it%10 == 0:
+    if it%1000 == 0:
         dmax=0
         jmax=0
         imax=0
