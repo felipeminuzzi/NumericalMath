@@ -28,7 +28,7 @@ def animate(k):
 
 ni     = 151
 nj     = 51
-nt     = 1000
+nt     = 10000
 re     = 900.
 dt     = 1.e-3
 L      = 5.
@@ -76,7 +76,7 @@ p[0,:,:] = initial_cond
 u[:,0,:]  = cc_top
 u[:,nj-1,:] = cc_bottom
 u[:,:,0]  = cc_left
-u[:,:,ni-1] = u[:,:,ni-2]
+u[:,:,ni-1] = cc_right#u[:,:,ni-2]
 
 #condição de contorno y
 v[:,0,:]  = cc_top
@@ -89,7 +89,7 @@ v[:,:,ni-1] = v[:,:,ni-2]
 ##################################################################	
 
 for it in range(nt-1):
-    #print(f'it:  {it} -- Pressão antes do cálculo de dp: {p[it,:,:]}')
+
     for i in range(1,ni-1):
         for j in range(1,nj-1):
 
@@ -127,7 +127,7 @@ for it in range(nt-1):
 
             conv_esp_pr   = d2udx2 + d2vdy2 + 2*d2uvdxy2
 
-            p[it,j,i]   = ((dx2*dy2)/(2*(dy2 + dx2)))*(dp + conv_esp_pr - (1/re)*(d2d1dx2 + d2d1dy2) - (1/dt)*d1[it,j,i] ) 
+            p[it+1,j,i]   = ((dx2*dy2)/(2*(dy2 + dx2)))*(dp + conv_esp_pr - (1/re)*(d2d1dx2 + d2d1dy2) - (1/dt)*d1[it,j,i] ) 
             #p[it,j,i]   = sbr*p[it,j,i] + (1. - sbr)*p[it+1,j,i]
 
     for j in range(0,nj-1):
@@ -138,7 +138,7 @@ for it in range(nt-1):
         p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
         p[it,nj-1,i]   = .75*p[it,nj-2,i] + .25*p[it,nj-3,i]
     
-    p[it+1,:,:] = p[it,:,:]
+    #p[it+1,:,:] = p[it,:,:]
     
     if it%10 == 0:
         dmax=0
@@ -151,10 +151,9 @@ for it in range(nt-1):
                     imax = i
                     jmax = j
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
-    #print(f'it: {it} -- Pressão após Poisson: {p[it,:,:]}')
-breakpoint()
+
 anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
 anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
-# plot_heatmap(u[-1,:,:], xi, yi)
-# plt.show()
+plot_heatmap(u[-1,:,:], xi, yi)
+plt.savefig('./escoamento_2D/2D/final_it_result.png', bbox_inches='tight')
 
