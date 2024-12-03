@@ -16,9 +16,9 @@ df = df.rename(columns={'160':'x', 'Unnamed: 1':'y', 'Unnamed: 2':'u'})
 ni = 161
 nj = 51
 
-xi = df.iloc[0:160,0].values
-yj = df.iloc[::160,1].values
-u_values = df['u'].values.reshape(nj, ni-1)
+xi = df.iloc[0:161,0].values.astype(float)
+yj = df.iloc[::161,1].values.astype(float)
+u_values = df['u'].values.reshape(nj, ni).astype(float)
 
 plot_heatmap(u_values, xi, yj)
 plt.show()
