@@ -188,7 +188,7 @@ do it=1,itmax
 		 tpv		= d2qmxudx2+d2qmyvdy2+2.d0*(d2qmxvdxy)	 
 
 		 p(i,j)       =coef*(dp+tpv-(1/re)*(d2ddx2+d2ddy2)-(1.d0/dt)*d1(i,j))
-		 !p(i,j)       =sbr*pa(i,j)+(1.d0-sbr)*p(i,j)
+		 p(i,j)       =sbr*pa(i,j)+(1.d0-sbr)*p(i,j)
 
 	      end do
 	    end do
@@ -205,8 +205,8 @@ do it=1,itmax
 
 !Entrada e Saída 
     do j=1,nj
-		p(1,j)	=p(2,j)!
-        p(ni,j)	=pin
+        p(1,j)	=pin
+        p(ni,j)	=p(ni-1,j)
     enddo
 
 		
@@ -230,7 +230,7 @@ do it=1,itmax
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	
 !o valor dmax indica o erro de acordo com a conservação da massa d1
 
-	  if(mod(it,100).eq.0)then
+	  if(mod(it,1000).eq.0)then
 		dmax=0.d0
 	    jmax=0.d0
 		imax=0.d0
@@ -274,7 +274,7 @@ do it=1,itmax
 		end do	           
 
 	    do j=1,nj
-			do i=1,ni-1
+			do i=1,ni
 				vtotal=((ua(i,j)**2.d0)+(va(i,j)**2)**2.d0)**(1.d0/2.d0)
 	            write(12,'(3e20.11)')x(i),y(j),ua(i,j)
 	            write(13,'(3e20.11)')x(i),y(j),va(i,j)
