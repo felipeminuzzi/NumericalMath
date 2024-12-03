@@ -28,7 +28,7 @@ def animate(k):
 
 ni     = 151
 nj     = 51
-nt     = 100000
+nt     = 1000
 re     = 900.
 dt     = 1.e-3
 L      = 5.
@@ -76,20 +76,20 @@ p[0,:,:] = initial_cond
 u[:,0,:]  = cc_top
 u[:,nj-1,:] = cc_bottom
 u[:,:,0]  = cc_left
-u[:,:,ni-1] = cc_right
+u[:,:,ni-1] = u[:,:,ni-2]
 
 #condição de contorno y
 v[:,0,:]  = cc_top
-v[:,nj-1,:] = cc_top
+v[:,nj-1,:] = v[:,nj-2,:]
 v[:,:,0]  = cc_top
-v[:,:,ni-1] = cc_top
+v[:,:,ni-1] = v[:,:,ni-2]
 
 ##################################################################
 #!		          Quantidade de movimento    	                 #
 ##################################################################	
 
 for it in range(nt-1):
-
+    #print(f'it:  {it} -- Pressão antes do cálculo de dp: {p[it,:,:]}')
     for i in range(1,ni-1):
         for j in range(1,nj-1):
 
@@ -131,14 +131,16 @@ for it in range(nt-1):
             #p[it,j,i]   = sbr*p[it,j,i] + (1. - sbr)*p[it+1,j,i]
 
     for j in range(0,nj-1):
-       p[it,j,0]       = p[it,j,1]
-       p[it,j,ni-1]    = 1. 
-
+        p[it,j,0]       = 1
+        p[it,j,ni-1]    = p[it,j,ni-2] 
+    
     for i in range(0,ni-1):
         p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
         p[it,nj-1,i]   = .75*p[it,nj-2,i] + .25*p[it,nj-3,i]
-
-    if it%1000 == 0:
+    
+    p[it+1,:,:] = p[it,:,:]
+    
+    if it%10 == 0:
         dmax=0
         jmax=0
         imax=0
@@ -149,8 +151,8 @@ for it in range(nt-1):
                     imax = i
                     jmax = j
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
-
-
+    #print(f'it: {it} -- Pressão após Poisson: {p[it,:,:]}')
+breakpoint()
 anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
 anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
 # plot_heatmap(u[-1,:,:], xi, yi)
