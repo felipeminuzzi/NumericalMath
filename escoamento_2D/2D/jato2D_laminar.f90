@@ -35,7 +35,7 @@ print *, 'Jato Laminar 2D'
 	dt2  = dt/2.d0
 	L    = 5.d0
 	H    = 1.d0
-	sbr  = 0.95d0
+	sbr  = 0.99d0
 	di   = 1.d0!2.27d-5
 	roh2o= 1.0 !g/cm3
 	mih2o= 0.01 !g/cm s
@@ -70,7 +70,6 @@ print *, 'Jato Laminar 2D'
 	uin = 1.d0
 	vin = 0.d0
 	pin = 1.d0
-	Tin = 300.d0
 
 	  do j=1,nj
 	    do i=1,ni
@@ -97,9 +96,6 @@ do it=1,itmax
   
 	  do j=2,nj-1
 	    do i=2,ni-1
-
-	      dx      =.5d0*(x(i+1)-x(i-1)) 
-	      dy      =.5d0*(y(j+1)-y(j-1)) 
 
 	      dx2     = dx*dx
 	      dy2     = dy*dy
@@ -159,10 +155,6 @@ do it=1,itmax
 
 	do j=2,nj-1
 		do i=2,ni-1
-
-		 dx		=.5d0*(x(i+1)-x(i-1)) 
-		 dy		=.5d0*(y(j+1)-y(j-1)) 
-
 		 dx2		=dx*dx
 		 dy2		=dy*dy
 
@@ -188,7 +180,7 @@ do it=1,itmax
 		 tpv		= d2qmxudx2+d2qmyvdy2+2.d0*(d2qmxvdxy)	 
 
 		 p(i,j)       =coef*(dp+tpv-(1/re)*(d2ddx2+d2ddy2)-(1.d0/dt)*d1(i,j))
-		 !p(i,j)       =sbr*pa(i,j)+(1.d0-sbr)*p(i,j)
+		 p(i,j)       =sbr*pa(i,j)+(1.d0-sbr)*p(i,j)
 
 	      end do
 	    end do
@@ -199,8 +191,8 @@ do it=1,itmax
 
 !Paredes do Duto
     do i=1,ni
-      	p(i,1)	=0!.75d0*p(i,2)+.25d0*p(i,3)
-        p(i,nj)	=0!.75d0*p(i,nj-1)+.25d0*p(i,nj-2)
+      	p(i,1)	=.75d0*p(i,2)+.25d0*p(i,3)
+        p(i,nj)	=.75d0*p(i,nj-1)+.25d0*p(i,nj-2)
     enddo
 
 !Entrada e Saída 
