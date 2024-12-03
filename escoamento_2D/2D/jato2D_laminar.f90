@@ -191,8 +191,8 @@ do it=1,itmax
 
 !Paredes do Duto
     do i=1,ni
-      	p(i,1)	=.75d0*p(i,2)+.25d0*p(i,3)
-        p(i,nj)	=.75d0*p(i,nj-1)+.25d0*p(i,nj-2)
+      	p(i,1)	=0!.75d0*p(i,2)+.25d0*p(i,3)
+        p(i,nj)	=0!.75d0*p(i,nj-1)+.25d0*p(i,nj-2)
     enddo
 
 !Entrada e Saída 
