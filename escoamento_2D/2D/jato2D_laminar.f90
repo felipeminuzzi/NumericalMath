@@ -1,6 +1,6 @@
 program jato2D
 implicit none
-integer,parameter			:: ni=161,nj=51,itmax=300000
+integer,parameter			:: ni=161,nj=51,itmax=1000000
 integer						:: i,j,k,it,nmj,nmk,imax,jmax,kmax,npj,npk,ninf,nsup,nextinf,nextsup,nmj2,nparede,ninj
 real(8)						:: dt,dt2,dx,dy,dz,L,D,H,re,dx2,dy2,dz2,sch,di,k1x,k1y,k1z,k2x,k2y,k2z,k3x,k3y,k3z,k4x,k4y,k4z
 real(8)						:: uin,vin,pin,Tin,win,k1mis,k2mis,k3mis,k4mis
