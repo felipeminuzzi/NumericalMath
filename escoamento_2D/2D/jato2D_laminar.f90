@@ -1,6 +1,6 @@
 program jato2D
 implicit none
-integer,parameter			:: ni=161,nj=51,itmax=3000000
+integer,parameter			:: ni=161,nj=51,itmax=10000
 integer						:: i,j,k,it,nmj,nmk,imax,jmax,kmax,npj,npk,ninf,nsup,nextinf,nextsup,nmj2,nparede,ninj
 real(8)						:: dt,dt2,dx,dy,dz,L,D,H,re,dx2,dy2,dz2,sch,di,k1x,k1y,k1z,k2x,k2y,k2z,k3x,k3y,k3z,k4x,k4y,k4z
 real(8)						:: uin,vin,pin,Tin,win,k1mis,k2mis,k3mis,k4mis
@@ -74,18 +74,18 @@ print *, 'Jato Laminar 2D'
 
 	  do j=1,nj
 	    do i=1,ni
-	    ro(i.j)   =1.d0
-	    roa(i.j)  =ro(i.j)
-	    u(i.j)    =uin!*ro(i,j)*(1.d0-(y(j)/(D/2.d0))**2.d0)*1.5d0
-	    v(i.j)    =vin
-	    p(i.j)    =pin
-	    ua(i.j)   =u(i.j)
-	    va(i.j)   =v(i.j)
-	    pa(i.j)   =pin
-	    qmx(i.j)  =ro(i.j)*u(i.j)
-	    qmy(i.j)  =ro(i.j)*v(i.j)
-	    qmxa(i.j) =qmx(i.j)
-	    qmya(i.j) =qmy(i.j)
+	    ro(i,j)   =1.d0
+	    roa(i,j)  =ro(i,j)
+	    u(i,j)    =uin!*ro(i,j)*(1.d0-(y(j)/(D/2.d0))**2.d0)*1.5d0
+	    v(i,j)    =vin
+	    p(i,j)    =pin
+	    ua(i,j)   =u(i,j)
+	    va(i,j)   =v(i,j)
+	    pa(i,j)   =pin
+	    qmx(i,j)  =ro(i,j)*u(i,j)
+	    qmy(i,j)  =ro(i,j)*v(i,j)
+	    qmxa(i,j) =qmx(i,j)
+	    qmya(i,j) =qmy(i,j)
 	    end do
 	  end do
 
@@ -243,7 +243,7 @@ do it=1,itmax
 				end if
 			end do
 		end do	
-	    print *, it,dmax,imax,jmax,kmax
+	    print *, it,dmax,imax,jmax
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 !		   Gravação de dados				!
@@ -275,9 +275,9 @@ do it=1,itmax
 
 	    do j=1,nj
 			do i=1,ni-1
-				vtotal=((ua(i,j)**2.d0)+(va(i,j,nmk)**2)**2.d0)**(1.d0/3.d0)
+				vtotal=((ua(i,j)**2.d0)+(va(i,j)**2)**2.d0)**(1.d0/2.d0)
 	            write(12,'(3e20.11)')x(i),y(j),ua(i,j)
-	            write(13,'(3e20.11)')x(i),y(j),va(i,j,nmk)
+	            write(13,'(3e20.11)')x(i),y(j),va(i,j)
 	            write(14,'(3e20.11)')x(i),y(j),vtotal
                 write(15,'(3e20.11)')x(i),y(j),pa(i,j)
 	            write(22,'(3e20.11)')x(i),y(j),ro(i,j)
