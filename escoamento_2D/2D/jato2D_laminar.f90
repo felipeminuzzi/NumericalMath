@@ -1,6 +1,6 @@
 program jato2D
 implicit none
-integer,parameter			:: ni=161,nj=51,itmax=10000
+integer,parameter			:: ni=161,nj=51,itmax=17000
 integer						:: i,j,k,it,nmj,nmk,imax,jmax,kmax,npj,npk,ninf,nsup,nextinf,nextsup,nmj2,nparede,ninj
 real(8)						:: dt,dt2,dx,dy,dz,L,D,H,re,dx2,dy2,dz2,sch,di,k1x,k1y,k1z,k2x,k2y,k2z,k3x,k3y,k3z,k4x,k4y,k4z
 real(8)						:: uin,vin,pin,Tin,win,k1mis,k2mis,k3mis,k4mis
@@ -35,7 +35,7 @@ print *, 'Jato Laminar 2D'
 	dt2  = dt/2.d0
 	L    = 5.d0
 	H    = 1.d0
-	sbr  = 0.99d0
+	sbr  = 0.95d0
 	di   = 1.d0!2.27d-5
 	roh2o= 1.0 !g/cm3
 	mih2o= 0.01 !g/cm s
@@ -60,7 +60,7 @@ print *, 'Jato Laminar 2D'
 !Direção y
 
 	do j=2,nj
-		y(j) = x(j-1) + dy
+		y(j) = y(j-1) + dy
 	end do
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -188,7 +188,7 @@ do it=1,itmax
 		 tpv		= d2qmxudx2+d2qmyvdy2+2.d0*(d2qmxvdxy)	 
 
 		 p(i,j)       =coef*(dp+tpv-(1/re)*(d2ddx2+d2ddy2)-(1.d0/dt)*d1(i,j))
-		 p(i,j)       =sbr*pa(i,j)+(1.d0-sbr)*p(i,j)
+		 !p(i,j)       =sbr*pa(i,j)+(1.d0-sbr)*p(i,j)
 
 	      end do
 	    end do
