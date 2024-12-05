@@ -28,7 +28,7 @@ def animate(k):
 
 ni     = 151
 nj     = 51
-nt     = 10000
+nt     = 1000
 re     = 900.
 dt     = 1.e-3
 L      = 5.
@@ -62,27 +62,27 @@ yi     = np.linspace(0,H, nj)
 #!		       Condições iniciais e de contorno	                 #
 ##################################################################	
 
-u  = np.zeros((nt, nj, ni))
-v  = np.zeros((nt, nj, ni))
-p  = np.zeros((nt, nj, ni))
-d1 = np.zeros((nt, nj, ni))
+u  = np.zeros((nj, ni))
+v  = np.zeros((nj, ni))
+p  = np.zeros((nj, ni))
+d1 = np.zeros((nj, ni))
 
 #condição inicial
-u[0,:,:] = initial_cond
-v[0,:,:] = 0
-p[0,:,:] = initial_cond
+u[:,:] = initial_cond
+v[:,:] = 0
+p[:,:] = initial_cond
 
 #condição de contorno x
-u[:,0,:]  = cc_top
-u[:,nj-1,:] = cc_bottom
-u[:,:,0]  = cc_left
-u[:,:,ni-1] = cc_right#u[:,:,ni-2]
+u[0,:]  = cc_top
+u[nj-1,:] = cc_bottom
+u[:,0]  = cc_left
+u[:,ni-1] = cc_right
 
 #condição de contorno y
-v[:,0,:]  = cc_top
-v[:,nj-1,:] = v[:,nj-2,:]
-v[:,:,0]  = cc_top
-v[:,:,ni-1] = v[:,:,ni-2]
+v[0,:]  = cc_top
+v[nj-1,:] = v[nj-2,:]
+v[:,0]  = cc_top
+v[:,ni-1] = v[:,ni-2]
 
 ##################################################################
 #!		          Quantidade de movimento    	                 #
@@ -90,55 +90,60 @@ v[:,:,ni-1] = v[:,:,ni-2]
 
 for it in range(nt-1):
 
+    un = u.copy()
+    vn = v.copy()
+    pn = p.copy()
+    
     for i in range(1,ni-1):
         for j in range(1,nj-1):
-
-            convect_x     = (u[it,j,i+1]*u[it,j,i+1] - u[it,j,i-1]*u[it,j,i-1])/(2*dx) + (u[it,j+1,i]*v[it,j+1,i] - u[it,j-1,i]*v[it,j-1,i])/(2*dy) 
-            convect_y     = (v[it,j+1,i]*v[it,j+1,i] - v[it,j-1,i]*v[it,j-1,i])/(2*dy) + (v[it,j,i+1]*u[it,j,i+1] - v[it,j,i-1]*u[it,j,i-1])/(2*dx)
+        
+            convect_x     = (un[j,i+1]*un[j,i+1] - un[j,i-1]*un[j,i-1])/(2*dx) + (un[j+1,i]*vn[j+1,i] - un[j-1,i]*vn[j-1,i])/(2*dy) 
+            convect_y     = (vn[j+1,i]*vn[j+1,i] - vn[j-1,i]*vn[j-1,i])/(2*dy) + (vn[j,i+1]*un[j,i+1] - vn[j,i-1]*un[j,i-1])/(2*dx)
             
-            difus_x       = (u[it,j,i+1] - 2*u[it,j,i] + u[it,j,i-1])/dx2 + (u[it,j+1,i] - 2*u[it,j,i] + u[it,j-1,i])/dy2            
-            difus_y       = (v[it,j,i+1] - 2*v[it,j,i] + v[it,j,i-1])/dx2 + (v[it,j+1,i] - 2*v[it,j,i] + v[it,j-1,i])/dy2   
+            difus_x       = (un[j,i+1] - 2*un[j,i] + un[j,i-1])/dx2 + (un[j+1,i] - 2*un[j,i] + un[j-1,i])/dy2            
+            difus_y       = (vn[j,i+1] - 2*vn[j,i] + vn[j,i-1])/dx2 + (vn[j+1,i] - 2*vn[j,i] + vn[j-1,i])/dy2   
 
-            dudx          = (u[it,j,i+1] - u[it,j,i-1])/(2*dx)
-            dvdy          = (v[it,j+1,i] - v[it,j-1,i])/(2*dy)         
+            dudx          = (un[j,i+1] - un[j,i-1])/(2*dx)
+            dvdy          = (vn[j+1,i] - vn[j-1,i])/(2*dy)         
             
-            d1[it,j,i]    = dudx + dvdy
+            d1[j,i]       = dudx + dvdy
 
-            dpdx          = (p[it,j,i+1] - p[it,j,i-1])/(2*dx) 
-            dpdy          = (p[it,j+1,i] - p[it,j-1,i])/(2*dy) 
+            dpdx          = (pn[j,i+1] - pn[j,i-1])/(2*dx) 
+            dpdy          = (pn[j+1,i] - pn[j-1,i])/(2*dy) 
 
-            u[it+1,j,i]   = u[it,j,i] + dt*(-convect_x - dpdx + (1/re)*difus_x)
-            v[it+1,j,i]   = v[it,j,i] + dt*(-convect_y - dpdy + (1/re)*difus_y)
+            u[j,i]   = un[j,i] + dt*(-convect_x - dpdx + (1/re)*difus_x)
+            v[j,i]   = vn[j,i] + dt*(-convect_y - dpdy + (1/re)*difus_y)
 
     
     for i in range(1,ni-1):
         for j in range(1,nj-1):
             
-            d2d1dx2       = (d1[it,j,i+1] - 2*d1[it,j,i] + d1[it,j,i-1])/dx2
-            d2d1dy2       = (d1[it,j+1,i] - 2*d1[it,j,i] + d1[it,j-1,i])/dy2
+            d2d1dx2       = (d1[j,i+1] - 2*d1[j,i] + d1[j,i-1])/dx2
+            d2d1dy2       = (d1[j+1,i] - 2*d1[j,i] + d1[j-1,i])/dy2
 
-            dpx           = (p[it,j,i+1] + p[it,j,i-1])/dx2
-            dpy           = (p[it,j+1,i] + p[it,j-1,i])/dy2 
+            dpx           = (pn[j,i+1] + pn[j,i-1])/dx2
+            dpy           = (pn[j+1,i] + pn[j-1,i])/dy2 
             dp            = dpx + dpy
 
-            d2udx2        = (u[it,j,i+1]*u[it,j,i+1] - 2*u[it,j,i]*u[it,j,i] + u[it,j,i-1]*u[it,j,i-1])/dx2
-            d2vdy2        = (v[it,j+1,i]*v[it,j+1,i] - 2*v[it,j,i]*v[it,j,i] + v[it,j-1,i]*v[it,j-1,i])/dy2
-            d2uvdxy2      = (u[it,j+1,i+1]*v[it,j+1,i+1] - u[it,j-1,i+1]*v[it,j-1,i+1] - u[it,j+1,i-1]*v[it,j+1,i-1] + u[it,j-1,i-1]*v[it,j-1,i-1])/(4*dx*dy)
+            d2udx2        = (un[j,i+1]*un[j,i+1] - 2*un[j,i]*un[j,i] + un[j,i-1]*un[j,i-1])/dx2
+            d2vdy2        = (vn[j+1,i]*vn[j+1,i] - 2*vn[j,i]*vn[j,i] + vn[j-1,i]*vn[j-1,i])/dy2
+            d2uvdxy2      = (un[j+1,i+1]*vn[j+1,i+1] - un[j-1,i+1]*vn[j-1,i+1] - un[j+1,i-1]*vn[j+1,i-1] + un[j-1,i-1]*vn[j-1,i-1])/(4*dx*dy)
 
             conv_esp_pr   = d2udx2 + d2vdy2 + 2*d2uvdxy2
 
-            p[it+1,j,i]   = ((dx2*dy2)/(2*(dy2 + dx2)))*(dp + conv_esp_pr - (1/re)*(d2d1dx2 + d2d1dy2) - (1/dt)*d1[it,j,i] ) 
-            #p[it,j,i]   = sbr*p[it,j,i] + (1. - sbr)*p[it+1,j,i]
+            coef          = (dx2*dy2)/(2*(dy2 + dx2))
+
+            p[j,i]        = coef*(dp + conv_esp_pr - (1/re)*(d2d1dx2 + d2d1dy2) - (1/dt)*d1[j,i]) 
+            p[j,i]        = sbr*pn[j,i] + (1. - sbr)*p[j,i]
 
     for j in range(0,nj-1):
-        p[it,j,0]       = 1
-        p[it,j,ni-1]    = p[it,j,ni-2] 
+        p[j,0]       = 1#p[j,1]
+        p[j,ni-1]    = p[j,ni-2] 
     
     for i in range(0,ni-1):
-        p[it,0,i]      = .75*p[it,1,i] + .25*p[it,2,i]
-        p[it,nj-1,i]   = .75*p[it,nj-2,i] + .25*p[it,nj-3,i]
+        p[0,i]      = .75*p[1,i] + .25*p[2,i]
+        p[nj-1,i]   = .75*p[nj-2,i] + .25*p[nj-3,i]
     
-    #p[it+1,:,:] = p[it,:,:]
     
     if it%10 == 0:
         dmax=0
@@ -146,14 +151,14 @@ for it in range(nt-1):
         imax=0
         for i in range(ni):
             for j in range(nj):
-                if d1[it,j,i] > dmax:
-                    dmax = d1[it,j,i]
+                if d1[j,i] > dmax:
+                    dmax = d1[j,i]
                     imax = i
                     jmax = j
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
-
+breakpoint()
 anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
 anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
-plot_heatmap(u[-1,:,:], xi, yi)
+plot_heatmap(u[:,:], xi, yi)
 plt.savefig('./escoamento_2D/2D/final_it_result.png', bbox_inches='tight')
 
