@@ -28,12 +28,12 @@ def animate(k):
 
 ni     = 151
 nj     = 51
-nt     = 1000
+nt     = 10000
 re     = 900.
 dt     = 1.e-3
 L      = 5.
 H      = 1.
-sbr    = 0.99
+sbr    = 0.95
 roh2o  = 1.0  #g/cm3
 mih2o  = 0.01 #g/cm s
 
@@ -156,9 +156,9 @@ for it in range(nt-1):
                     imax = i
                     jmax = j
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
-breakpoint()
-anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
-anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
+
+#anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
+#anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
 plot_heatmap(u[:,:], xi, yi)
 plt.savefig('./escoamento_2D/2D/final_it_result.png', bbox_inches='tight')
 
