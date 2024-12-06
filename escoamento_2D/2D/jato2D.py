@@ -33,11 +33,11 @@ re     = 900.
 dt     = 1.e-3
 L      = 5.
 H      = 1.
-sbr    = 0.95
+sbr    = 0.99
 roh2o  = 1.0  #g/cm3
 mih2o  = 0.01 #g/cm s
 
-initial_cond  = 1
+initial_cond  = 0
 cc_bottom     = 0
 cc_top        = 0
 cc_left       = 1
@@ -68,21 +68,21 @@ p  = np.zeros((nj, ni))
 d1 = np.zeros((nj, ni))
 
 #condição inicial
-u[:,:] = initial_cond
-v[:,:] = 0
-p[:,:] = initial_cond
+# u[:,:] = initial_cond
+# v[:,:] = 0
+# p[:,:] = initial_cond
 
 #condição de contorno x
 u[0,:]  = cc_top
-u[nj-1,:] = cc_bottom
+u[-1,:] = cc_bottom
 u[:,0]  = cc_left
-u[:,ni-1] = cc_right
+u[:,-1] = cc_right
 
 #condição de contorno y
 v[0,:]  = cc_top
-v[nj-1,:] = v[nj-2,:]
+v[-1,:] = cc_top#v[nj-2,:]
 v[:,0]  = cc_top
-v[:,ni-1] = v[:,ni-2]
+v[:,-1] = cc_top#v[:,ni-2]
 
 ##################################################################
 #!		          Quantidade de movimento    	                 #
@@ -134,18 +134,15 @@ for it in range(nt-1):
             coef          = (dx2*dy2)/(2*(dy2 + dx2))
 
             p[j,i]        = coef*(dp + conv_esp_pr - (1/re)*(d2d1dx2 + d2d1dy2) - (1/dt)*d1[j,i]) 
-            p[j,i]        = sbr*pn[j,i] + (1. - sbr)*p[j,i]
+            #p[j,i]        = sbr*pn[j,i] + (1. - sbr)*p[j,i]
 
-    for j in range(0,nj-1):
-        p[j,0]            = 1#p[j,1]
-        p[j,-1]           = p[j,-2] 
+    #condição de contorno p
+    p[:,0]                = 1        
+    p[:,-1]               = p[:,-2]
+    p[0,:]                = p[1,:]#.75*p[1,i] + .25*p[2,i]
+    p[-1,:]               = p[-2,:]#.75*p[nj-2,i] + .25*p[nj-3,i]
     
-    for i in range(0,ni-1):
-        p[0,i]            = p[1,i]#.75*p[1,i] + .25*p[2,i]
-        p[-1,i]           = p[-2,i]#.75*p[nj-2,i] + .25*p[nj-3,i]
-    
-    
-    if it%10 == 0:
+    if it%100 == 0:
         dmax=0
         jmax=0
         imax=0
@@ -156,7 +153,7 @@ for it in range(nt-1):
                     imax = i
                     jmax = j
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
-
+breakpoint()
 #anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
 #anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
 plot_heatmap(u[:,:], xi, yi)
