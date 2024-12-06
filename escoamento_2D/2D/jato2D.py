@@ -137,12 +137,12 @@ for it in range(nt-1):
             p[j,i]        = sbr*pn[j,i] + (1. - sbr)*p[j,i]
 
     for j in range(0,nj-1):
-        p[j,0]       = 1#p[j,1]
-        p[j,ni-1]    = p[j,ni-2] 
+        p[j,0]            = 1#p[j,1]
+        p[j,-1]           = p[j,-2] 
     
     for i in range(0,ni-1):
-        p[0,i]      = .75*p[1,i] + .25*p[2,i]
-        p[nj-1,i]   = .75*p[nj-2,i] + .25*p[nj-3,i]
+        p[0,i]            = p[1,i]#.75*p[1,i] + .25*p[2,i]
+        p[-1,i]           = p[-2,i]#.75*p[nj-2,i] + .25*p[nj-3,i]
     
     
     if it%10 == 0:
