@@ -29,7 +29,7 @@ def animate(k):
 ni     = 151
 nj     = 51
 nt     = 10000
-re     = 900.
+re     = 10.
 dt     = 1.e-3
 L      = 5.
 H      = 1.
