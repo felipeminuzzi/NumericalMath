@@ -20,7 +20,7 @@
  - Sala: 1218B do CCNE
  - Horário: <br> Curso 311: quartas-feiras, das 8:00 às 9:30 <br>
             Curso 304: sextas-feiras, das 08:30 às 10:00
- - Local: Curso 311: sala 338 do CT (Prédio 7)
+ - Local: <br> Curso 311: sala 338 do CT (Prédio 7) <br>
             Curso 304: sala 334 do CT (Prédio 7) 
  - [Ementa](https://www.ufsm.br/ementario/disciplinas/UFSM00043): informações institucionais sobre a disciplina.
  - Objetivos da disciplina:
