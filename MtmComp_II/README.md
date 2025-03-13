@@ -19,7 +19,7 @@
  - Professor: Felipe Crivellaro Minuzzi (felipe.minuzzi@ufsm.br)
  - Sala: 1218B do CCNE
  - Horário: sexta-feira das 15:30 às 17:10
- - Local: sala 301 do CT (Prédio 7)
+ - Local: sala 334 do CT (Prédio 7)
  - [Ementa](https://www.ufsm.br/ementario/disciplinas/UFSM00041): informações institucionais sobre a disciplina.
  - Objetivos da disciplina:
    1. Conhecer conceitos básicos para a utilização de programação na solução de problemas. 
@@ -30,7 +30,7 @@
 
 ## Aulas
 
-O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_II_11_303_202401.pdf).
+O cronograma da disciplina pode ser encontrado [aqui](plano_ensino_mtm_comp_II_11_303_202501.pdf).
 
 ## Avaliações
 
@@ -40,9 +40,9 @@ A avaliação irá considerar a **produção** dos estudantes durante as aulas p
     - valor: 50% da nota
 - N2: entrega de um trabalho avaliativo, cujo tópico será relacionado ao curso de formação, e que utilizará as ferramentas e conceitos aprendidos durante as aulas.
     - valor: 50% da nota
-    - será possível resolver em grupos de até 3 alunos;
-    - as últimas três aulas da disciplina serão disponibilizada para resolução do trabalho.
-- **Obs.:** a entrega de todas as atividades será pelo [Moodle](https://ead06.proj.ufsm.br/login/index.php).
+    - será possível resolver em grupos de **até 3 alunos**;
+    - as últimas duas aulas da disciplina serão disponibilizada para resolução do trabalho.
+- **Obs.:** a entrega de todas atividades computacionais será pelo [Moodle](https://ead06.proj.ufsm.br/login/index.php), **enquanto o trabalho final deve ser entregue impresso**.
 - O(a) aluno(a) que obtiver nota **maior ou igual a 7,0** será considerado(a) aprovado(a) na disciplina. Do contrário, será realizado um o exame final, o qual consiste uma avaliação computacional de valor 10,0.
 
 <p align="right">(<a href="#readme-top">início</a>)</p>
