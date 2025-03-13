@@ -18,9 +18,10 @@
 ## Sobre a disciplina
  - Professor: Felipe Crivellaro Minuzzi (felipe.minuzzi@ufsm.br)
  - Sala: 1218B do CCNE
- - Horário: <br> Curso 315: segundas-feiras, das 17:30 às 19:00 <br>
+ - Horário: <br> Curso 311: quartas-feiras, das 8:00 às 9:30 <br>
             Curso 304: sextas-feiras, das 08:30 às 10:00
- - Local: sala 338 do CT (Prédio 7)
+ - Local: Curso 311: sala 338 do CT (Prédio 7)
+            Curso 304: sala 334 do CT (Prédio 7) 
  - [Ementa](https://www.ufsm.br/ementario/disciplinas/UFSM00043): informações institucionais sobre a disciplina.
  - Objetivos da disciplina:
    1. Conhecer conceitos básicos para a utilização de programação na solução de problemas. 
@@ -31,7 +32,7 @@
 
 ## Aulas
 
-O cronograma da disciplina pode ser encontrado aqui: [Curso 315](plano_ensino_mtm_comp_IV_10_315_202402.pdf) e [Curso 304](plano_ensino_mtm_comp_IV_10_304_202402.pdf)
+O cronograma da disciplina pode ser encontrado aqui: [Curso 311](plano_ensino_mtm_comp_IV_10_311_202501.pdf) e [Curso 304](plano_ensino_mtm_comp_IV_10_304_202501.pdf)
 
 ## Avaliações
 
@@ -41,8 +42,8 @@ A avaliação irá considerar a **produção** dos estudantes durante as aulas p
     - valor: 50% da nota
 - N2: entrega de um trabalho avaliativo, cujo tópico será relacionado ao curso de formação, e que utilizará as ferramentas e conceitos aprendidos durante as aulas.
     - valor: 50% da nota
-    - será possível resolver em grupos de até 3 alunos;
-    - as últimas três aulas da disciplina serão disponibilizada para resolução do trabalho.
+    - será possível resolver em grupos de **até 3 alunos**;
+    - as últimas duas aulas da disciplina serão disponibilizada para resolução do trabalho.
 - **Obs.:** a entrega de todas atividades computacionais será pelo [Moodle](https://ead06.proj.ufsm.br/login/index.php), **enquanto o trabalho final deve ser entregue impresso**.
 - O(a) aluno(a) que obtiver nota **maior ou igual a 7,0** será considerado(a) aprovado(a) na disciplina. Do contrário, será realizado um o exame final, o qual consiste uma avaliação computacional de valor 10,0.
 
