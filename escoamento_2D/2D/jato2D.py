@@ -23,13 +23,13 @@ def animate(k):
   plot_heatmap(u[k, :,:], xi, yi)
 
 ##################################################################
-#!		                 Constantes			                     #
+#!		                 Constantes			 #
 ##################################################################	
 
-ni     = 151
+ni     = 121
 nj     = 51
 nt     = 10000
-re     = 10.
+re     = 100.
 dt     = 1.e-3
 L      = 5.
 H      = 1.
@@ -39,14 +39,14 @@ mih2o  = 0.01 #g/cm s
 
 initial_cond  = 0
 cc_bottom     = 0
-cc_top        = 0
-cc_left       = 1
+cc_top        = 1
+cc_left       = 0
 cc_right      = 0
 
 print(f'Reynolds: {re}')
 
 ##################################################################
-#!		                 Geração da malha	                     #
+#!		                 Geração da malha	         #
 ##################################################################	
 
 dx     = L/ni
@@ -59,18 +59,13 @@ xi     = np.linspace(0,L, ni)
 yi     = np.linspace(0,H, nj)
 
 ##################################################################
-#!		       Condições iniciais e de contorno	                 #
+#!		       Condições iniciais e de contorno	         #
 ##################################################################	
 
 u  = np.zeros((nj, ni))
 v  = np.zeros((nj, ni))
 p  = np.zeros((nj, ni))
 d1 = np.zeros((nj, ni))
-
-#condição inicial
-# u[:,:] = initial_cond
-# v[:,:] = 0
-# p[:,:] = initial_cond
 
 #condição de contorno x
 u[0,:]  = cc_top
@@ -85,7 +80,7 @@ v[:,0]  = cc_top
 v[:,-1] = cc_top#v[:,ni-2]
 
 ##################################################################
-#!		          Quantidade de movimento    	                 #
+#!		          Quantidade de movimento    	         #
 ##################################################################	
 
 for it in range(nt-1):
@@ -134,7 +129,6 @@ for it in range(nt-1):
             coef          = (dx2*dy2)/(2*(dy2 + dx2))
 
             p[j,i]        = coef*(dp + conv_esp_pr - (1/re)*(d2d1dx2 + d2d1dy2) - (1/dt)*d1[j,i]) 
-            #p[j,i]        = sbr*pn[j,i] + (1. - sbr)*p[j,i]
 
     #condição de contorno p
     p[:,0]                = 1        
@@ -153,9 +147,9 @@ for it in range(nt-1):
                     imax = i
                     jmax = j
         print(f'it: {it} -- i: {imax} -- j: {jmax} -- Dilatação: {dmax}')
-breakpoint()
-#anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = nt, repeat=False)
-#anim.save(filename='./escoamento_2D/2D/flow.html', writer="html")
-plot_heatmap(u[:,:], xi, yi)
-plt.savefig('./escoamento_2D/2D/final_it_result.png', bbox_inches='tight')
+     
+#anim = animation.FuncAnimation(plt.figure(), animate, interval = 1, frames = int(nt/100), repeat=False)
+#anim.save(filename='flow.html', writer="html")
+plot_heatmap(np.flip(u), xi, yi)
+plt.savefig('final_it_result.png', bbox_inches='tight')
 
