@@ -1,4 +1,7 @@
-zzzz
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras import layers
+import matplotlib.pyplot as plt
 
 
 #define PINN model
@@ -54,7 +57,7 @@ def residuals(model, x, y, t, nu):
 #defining loss function
 def loss_fn(model, x, y, t, nu):
     f_u, f_v, f_cont = residuals(model, x, y, t, nu)
-
+    breakpoint()
     # PDE residual loss
     loss_pde = tf.reduce_mean(tf.square(f_u)) + tf.reduce_mean(tf.square(f_v)) + tf.reduce_mean(tf.square(f_cont))
 
