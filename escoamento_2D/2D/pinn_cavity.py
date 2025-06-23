@@ -1,7 +1,6 @@
 import pickle
 import numpy as np
 import tensorflow as tf
-from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 
 tf.random.set_seed(42)
