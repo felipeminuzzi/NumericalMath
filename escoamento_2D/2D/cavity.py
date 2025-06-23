@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib
-
+import pickle
 matplotlib.rcParams['animation.embed_limit'] = 2**128
 
 def plot_heatmap(u_k, x, y):
@@ -32,7 +32,7 @@ def animate(k):
 ###Constantes###
 ni     = 51
 nj     = 51
-nt     = 50000 # laço velocidade
+nt     = 30000 # laço velocidade
 re     = 100
 dt     = 1.e-3
 L      = 1.
@@ -266,13 +266,21 @@ for i in np.arange(0,ni):
             uvt[j,i] = u[it,j,i]
             vvt[j,i] = v[it,j,i]
 
-breakpoint()
 print(f'Iteração Total: {it} -- Resíduo: {Rv}')
-plot_heatmap(u[it,:,:], xi, yi)
-plt.show()
-plot_heatmap(v[it,:,:], xi, yi)
 
-X, Y = np.meshgrid(xi,yi)
-plt.quiver(X[::1, ::1], Y[::1, ::1], uvt[::1, ::1], vvt[::1, ::1])
-plt.xlabel('x')
-plt.ylabel('y')
+save_name = ['u_df_pred.pkl', 'v_df_pred.pkl']
+u_pred    = u[-1,:,:]
+v_pred    = v[-1,:,:]
+vels      = [u_pred, v_pred]
+for i, name in enumerate(save_name):
+    with open(name, 'wb') as fp:
+        pickle.dump(vels[i], fp) 
+
+# plot_heatmap(u[it,:,:], xi, yi)
+# plt.show()
+# plot_heatmap(v[it,:,:], xi, yi)
+
+# X, Y = np.meshgrid(xi,yi)
+# plt.quiver(X[::1, ::1], Y[::1, ::1], uvt[::1, ::1], vvt[::1, ::1])
+# plt.xlabel('x')
+# plt.ylabel('y')

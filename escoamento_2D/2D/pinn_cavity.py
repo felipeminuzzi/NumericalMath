@@ -1,3 +1,4 @@
+import pickle
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -178,6 +179,12 @@ XY = tf.stack([X_flat, Y_flat], axis=1)
 u_pred, v_pred, _ = model(XY)
 u_pred = tf.reshape(u_pred, (ny, nx)).numpy()
 v_pred = tf.reshape(v_pred, (ny, nx)).numpy()
+
+save_name = ['u_pinn_pred.pkl', 'v_pinn_pred.pkl']
+vels      = [u_pred, v_pred]
+for i, name in enumerate(save_name):
+    with open(name, 'wb') as fp:
+        pickle.dump(vels[i], fp) 
 
 # Plot streamlines
 plt.figure(figsize=(8, 6))
