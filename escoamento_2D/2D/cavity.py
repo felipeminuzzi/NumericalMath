@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
@@ -29,9 +30,21 @@ def plot_mesh(x,y):
 def animate(k):
   plot_heatmap(u[k, :,:], xi, yi)
 
+
+def format_path(path):
+    """""Formats the path string in order to avoid conflicts."""
+
+    if path[-1]!='/':
+        path = path + '/'
+
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+    return path
+
 ###Constantes###
-ni     = 51
-nj     = 51
+ni     = 101
+nj     = 101
 nt     = 30000 # laço velocidade
 re     = 100
 dt     = 1.e-3
@@ -267,8 +280,9 @@ for i in np.arange(0,ni):
             vvt[j,i] = v[it,j,i]
 
 print(f'Iteração Total: {it} -- Resíduo: {Rv}')
+save_path = format_path(f'./results/{ni}x{nj}/')
 
-save_name = ['u_df_pred.pkl', 'v_df_pred.pkl']
+save_name = [f'{save_path}u_df_pred.pkl', f'{save_path}/v_df_pred.pkl']
 u_pred    = u[-1,:,:]
 v_pred    = v[-1,:,:]
 vels      = [u_pred, v_pred]
