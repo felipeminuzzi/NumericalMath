@@ -43,8 +43,8 @@ def format_path(path):
     return path
 
 ###Constantes###
-ni     = 101
-nj     = 101
+ni     = 121
+nj     = 121
 nt     = 30000 # laço velocidade
 re     = 100
 dt     = 1.e-3
